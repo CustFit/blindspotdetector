@@ -1,4 +1,4 @@
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,6 +73,7 @@
                                 </div>
                             </div>
                             <div class="quick-win">
+                            
                                 <strong>QUICK WIN:</strong> Interview 3 recent customers about what specifically prompted them to buy now rather than later.
                             </div>
                         </div>
@@ -115,6 +116,7 @@
                                 </div>
                             </div>
                             <div class="quick-win">
+                            
                                 <strong>QUICK WIN:</strong> Ask customers to allocate 100 points across your features/benefits based on their importance.
                             </div>
                         </div>
@@ -157,6 +159,7 @@
                                 </div>
                             </div>
                             <div class="quick-win">
+                            
                                 <strong>QUICK WIN:</strong> Track conversion rates between each step of your sales process to identify the biggest drop-offs.
                             </div>
                         </div>
@@ -199,6 +202,7 @@
                                 </div>
                             </div>
                             <div class="quick-win">
+                            
                                 <strong>QUICK WIN:</strong> Survey long-term customers about what would make them consider alternatives.
                             </div>
                         </div>
@@ -241,6 +245,7 @@
                                 </div>
                             </div>
                             <div class="quick-win">
+                            
                                 <strong>QUICK WIN:</strong> Ask recent referrers what specifically prompted them to recommend you.
                             </div>
                         </div>
@@ -282,7 +287,9 @@
     </main>
 
     <footer>
+    
         <div class="container">
+        
             <p>© 2025 CustomersFit LLC. All rights reserved.</p>
             <div class="contact">
                 <a href="mailto:hello@customersfit.com">hello@customersfit.com</a>
