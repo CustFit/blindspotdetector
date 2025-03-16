@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +6,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         /* Base Styles */
@@ -216,75 +214,25 @@
             margin-top: 20px; /* Added spacing before quick win */
         }
 
-        .submit-container {
-            text-align: center;
-            margin-top: 40px; /* Increased spacing */
-            margin-bottom: 40px; /* Added spacing after button */
-        }
-
-        /* Results Section */
-        .results {
-            margin-top: 50px;
-        }
-
-        .results h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .results-container {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .results-chart {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .results-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .interpretation {
+        /* Deeper Dive Section */
+        .deeper-dive {
             background-color: var(--secondary-color);
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            text-align: center;
+            margin: 40px 0;
         }
 
-        .interpretation h3 {
-            margin-top: 0;
-        }
-
-        .interpretation ul {
-            margin-left: 20px;
+        .deeper-dive h3 {
+            color: var(--primary-color);
             margin-bottom: 15px;
         }
 
-        #recommendation {
-            background-color: var(--light-gray);
-            padding: 20px;
-            border-radius: 8px;
+        .deeper-dive p {
             margin-bottom: 20px;
-        }
-
-        .cta {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .cta h3 {
-            color: var(--white);
-        }
-
-        .cta p {
-            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
@@ -593,43 +541,23 @@
                         </div>
                     </div>
 
-                    <div class="submit-container">
-                        <button type="button" id="calculateButton" class="btn-primary">Calculate My Results</button>
+                    <div class="deeper-dive">
+                        <h3>Ready for a deeper dive?</h3>
+                        <p>If you've completed this checklist and want to uncover even more profit opportunities in your business, take the next step:</p>
+                        <a href="https://calendly.com/patricia-rubio/30min-chat" class="btn-primary" target="_blank">Book Your Customer Goldmine Audit</a>
                     </div>
                 </form>
-
-                <div id="results" class="results" style="display: none;">
-                    <h2>Your Blind Spot Assessment Results</h2>
-                    <div class="results-container">
-                        <div class="results-chart">
-                            <canvas id="resultsChart"></canvas>
-                        </div>
-                        <div class="results-text">
-                            <div id="zoneScores"></div>
-                            <div class="interpretation">
-                                <h3>Scoring Guide:</h3>
-                                <ul>
-                                    <li><strong>12-15:</strong> Strong understanding - Maintain and refine</li>
-                                    <li><strong>8-11:</strong> Partial visibility - Opportunity for improvement</li>
-                                    <li><strong>3-7:</strong> Significant blind spot - Immediate action required</li>
-                                </ul>
-                                <p>Your lowest-scoring zone represents your biggest opportunity for growth and profit improvement.</p>
-                            </div>
-                            <div id="recommendation"></div>
-                            <div class="cta">
-                                <h3>Ready for a complete Customer Goldmine Audit?</h3>
-                                <p>Discover all your hidden profit opportunities with our comprehensive audit.</p>
-                                <a href="https://www.customersfit.com" class="btn-primary">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container">
+            <div class="deeper-dive" style="background-color: transparent; color: white;">
+                <h3 style="color: white;">Ready for a deeper dive?</h3>
+                <p>If you've completed this checklist and want to uncover even more profit opportunities in your business, take the next step:</p>
+                <a href="https://calendly.com/patricia-rubio/30min-chat" class="btn-primary" target="_blank">Book Your Customer Goldmine Audit</a>
+            </div>
             <div class="contact">
                 <a href="mailto:hello@customersfit.com">hello@customersfit.com</a>
                 <a href="tel:+16692514646">+1 669 251 4646</a>
@@ -638,140 +566,5 @@
             <p>© 2025 CustomersFit LLC. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('blindSpotForm');
-            const calculateButton = document.getElementById('calculateButton');
-            const results = document.getElementById('results');
-            const zoneScores = document.getElementById('zoneScores');
-            const recommendation = document.getElementById('recommendation');
-            let chart;
-
-            calculateButton.addEventListener('click', function() {
-                // Calculate scores for each zone
-                const scores = {
-                    'PURCHASE TRIGGERS': calculateZoneScore(1, 3),
-                    'VALUE PERCEPTION': calculateZoneScore(4, 6),
-                    'FRICTION POINTS': calculateZoneScore(7, 9),
-                    'LOYALTY DRIVERS': calculateZoneScore(10, 12),
-                    'WORD-OF-MOUTH CATALYSTS': calculateZoneScore(13, 15)
-                };
-                
-                // Display results
-                displayResults(scores);
-                
-                // Show results section
-                results.style.display = 'block';
-                
-                // Scroll to results
-                results.scrollIntoView({ behavior: 'smooth' });
-            });
-
-            function calculateZoneScore(startQ, endQ) {
-                let score = 0;
-                let answeredQuestions = 0;
-                
-                for (let i = startQ; i <= endQ; i++) {
-                    const radios = document.getElementsByName('q' + i);
-                    for (let j = 0; j < radios.length; j++) {
-                        if (radios[j].checked) {
-                            score += parseInt(radios[j].value);
-                            answeredQuestions++;
-                            break;
-                        }
-                    }
-                }
-                
-                // If all questions in zone are answered, return score
-                if (answeredQuestions === (endQ - startQ + 1)) {
-                    return score;
-                }
-                
-                // If some questions are unanswered, return proportional score
-                // If no questions answered, return 0
-                return answeredQuestions > 0 ? Math.round(score * 3 / answeredQuestions) : 0;
-            }
-
-            function displayResults(scores) {
-                // Clear previous results
-                zoneScores.innerHTML = '';
-                
-                // Create HTML for zone scores
-                let html = '<h3>Your Zone Scores:</h3><ul>';
-                
-                // Find lowest score and its zone
-                let lowestScore = 15;
-                let lowestZone = '';
-                
-                Object.entries(scores).forEach(([zone, score]) => {
-                    let status;
-                    if (score >= 12) {
-                        status = '<span style="color: green;">Strong understanding</span>';
-                    } else if (score >= 8) {
-                        status = '<span style="color: orange;">Partial visibility</span>';
-                    } else {
-                        status = '<span style="color: red;">Significant blind spot</span>';
-                    }
-                    
-                    html += `<li><strong>${zone}:</strong> ${score}/15 - ${status}</li>`;
-                    
-                    if (score < lowestScore) {
-                        lowestScore = score;
-                        lowestZone = zone;
-                    }
-                });
-                
-                html += '</ul>';
-                zoneScores.innerHTML = html;
-                
-                // Create recommendation based on lowest score
-                let recommendationText = `<h3>Your Biggest Opportunity:</h3>
-                    <p>Based on your assessment, your biggest opportunity for growth is in the <strong>${lowestZone}</strong> zone with a score of ${lowestScore}/15.</p>`;
-                
-                // Add specific recommendation based on zone
-                switch(lowestZone) {
-                    case 'PURCHASE TRIGGERS':
-                        recommendationText += `<p>Focus on understanding what specifically prompts customers to seek your solution. Interview recent customers about their buying journey and the specific events that triggered their search.</p>`;
-                        break;
-                    case 'VALUE PERCEPTION':
-                        recommendationText += `<p>Work on identifying what your customers truly value most about your offering. Consider conducting a value allocation exercise where customers distribute points across your features/benefits.</p>`;
-                        break;
-                    case 'FRICTION POINTS':
-                        recommendationText += `<p>Map your complete customer journey and identify where potential customers are dropping out. Track conversion rates between each step of your sales process.</p>`;
-                        break;
-                    case 'LOYALTY DRIVERS':
-                        recommendationText += `<p>Investigate what keeps your customers loyal beyond the obvious reasons. Survey long-term customers about what would make them consider alternatives.</p>`;
-                        break;
-                    case 'WORD-OF-MOUTH CATALYSTS':
-                        recommendationText += `<p>Discover what specifically makes customers recommend you to others. Ask recent referrers what prompted them to recommend your business.</p>`;
-                        break;
-                }
-                
-                recommendation.innerHTML = recommendationText;
-                
-                // Create or update chart
-                createChart(scores);
-            }
-
-            function createChart(scores) {
-                const ctx = document.getElementById('resultsChart').getContext('2d');
-                
-                // Destroy previous chart if it exists
-                if (chart) {
-                    chart.destroy();
-                }
-                
-                // Create new chart
-                chart = new Chart(ctx, {
-                    type: 'radar',
-                    data: {
-                        labels: Object.keys(scores),
-                        datasets: [{
-                            label: 'Your Score',
-                            data: Object.values(scores),
-                            backgroundColor: 'rgba(255, 107, 53, 0.2)',
-                            borderColor: 'rgba(255, 107, 53, 1)',
-                            borderWidth: 2,
-                            pointBackgroundColor: 'rgba(255, 107, 53, 1)'
-                        }]
+</body>
+</html>
