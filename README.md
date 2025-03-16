@@ -541,16 +541,6 @@
                         </div>
                     </div>
 
-                    <div class="deeper-dive">
-                        <h3>Ready for a deeper dive?</h3>
-                        <p>If you've completed this checklist and want to uncover even more profit opportunities in your business, take the next step:</p>
-                        <a href="https://calendly.com/patricia-rubio/30min-chat" class="btn-primary" target="_blank">Book Your Customer Goldmine Audit</a>
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
-
     <footer>
         <div class="container">
             <div class="deeper-dive" style="background-color: transparent; color: white;">
