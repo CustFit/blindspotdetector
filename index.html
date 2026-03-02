@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Blind Spot Detector | Customers Fit</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4ff;
+      color: #1A1A2E;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #2563EB;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .brand { color: white; font-size: 18px; font-weight: 700; }
+    header .tagline { color: #BFDBFE; font-size: 13px; font-style: italic; }
+    header a { color: #BFDBFE; font-size: 13px; text-decoration: none; }
+    header a:hover { color: white; }
+
+    .hero {
+      background: linear-gradient(135deg, #1E40AF 0%, #2563EB 100%);
+      color: white;
+      text-align: center;
+      padding: 48px 24px 40px;
+    }
+    .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
+    .hero p { font-size: 15px; color: #BFDBFE; max-width: 620px; margin: 0 auto 8px; line-height: 1.6; }
+    .hero .instruction {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #EFF6FF;
+    }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 48px; }
+
+    .progress-bar-wrap {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-bar-wrap label { font-size: 13px; color: #6B7280; white-space: nowrap; }
+    .progress-bar-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 10px; }
+    .progress-bar-inner { height: 10px; border-radius: 99px; background: #2563EB; transition: width 0.4s ease; width: 0%; }
+    .progress-count { font-size: 13px; font-weight: 700; color: #2563EB; white-space: nowrap; }
+
+    .section-card {
+      background: white;
+      border-radius: 14px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      overflow: hidden;
+    }
+    .section-header {
+      background: #1E40AF;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-number {
+      background: rgba(255,255,255,0.15);
+      color: #93C5FD;
+      font-size: 22px;
+      font-weight: 800;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title { color: white; font-size: 15px; font-weight: 700; }
+    .section-subtitle { color: #BFDBFE; font-size: 12px; margin-top: 2px; }
+
+    .section-body { padding: 20px 24px; }
+
+    .question-block { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #EFF6FF; }
+    .question-block:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .question-text { font-size: 14px; color: #1A1A2E; line-height: 1.5; margin-bottom: 12px; }
+
+    .rating-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .rating-btn {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      border: 2px solid #DBEAFE;
+      background: #F8FAFF;
+      color: #6B7280;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rating-btn:hover { border-color: #2563EB; color: #2563EB; background: #EFF6FF; }
+    .rating-btn.selected { background: #2563EB; border-color: #2563EB; color: white; }
+    .rating-btn.selected-low { background: #EF4444; border-color: #EF4444; color: white; }
+    .rating-btn.selected-mid { background: #F59E0B; border-color: #F59E0B; color: white; }
+    .rating-btn.selected-high { background: #10B981; border-color: #10B981; color: white; }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 10px;
+      color: #9CA3AF;
+    }
+
+    .quick-win {
+      background: #EFF6FF;
+      border-left: 3px solid #2563EB;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #1E40AF;
+      line-height: 1.5;
+    }
+    .quick-win strong { color: #2563EB; }
+
+    .section-score-bar {
+      background: #EFF6FF;
+      border-radius: 0 0 14px 14px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid #DBEAFE;
+    }
+    .section-score-label { font-size: 12px; color: #6B7280; }
+    .section-score-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 8px; }
+    .section-score-inner { height: 8px; border-radius: 99px; background: #2563EB; transition: width 0.4s; width: 0%; }
+    .section-score-val { font-size: 12px; font-weight: 700; color: #2563EB; min-width: 32px; text-align: right; }
+
+    .calculate-btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: #2563EB;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .calculate-btn:hover { background: #1E40AF; }
+    .calculate-btn:disabled { background: #93C5FD; cursor: not-allowed; }
+
+    .results-card {
+      display: none;
+      background: white;
+      border-radius: 14px;
+      margin-top: 28px;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.12);
+      overflow: hidden;
+    }
+    .results-header {
+      background: linear-gradient(135deg, #1E40AF, #2563EB);
+      padding: 28px 32px;
+      text-align: center;
+      color: white;
+    }
+    .results-header h2 { font-size: 22px; margin-bottom: 8px; }
+    .score-circle {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 4px solid rgba(255,255,255,0.4);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 16px auto 4px;
+    }
+    .score-number { font-size: 36px; font-weight: 800; color: white; line-height: 1; }
+    .score-denom { font-size: 14px; color: #BFDBFE; }
+    .score-label { font-size: 20px; font-weight: 700; color: white; margin-top: 8px; }
+    .score-description { font-size: 14px; color: #BFDBFE; margin-top: 6px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+    .results-body { padding: 28px 32px; }
+    .results-body h3 { font-size: 16px; font-weight: 700; color: #1E40AF; margin-bottom: 16px; }
+
+    .pillar-result {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: #F8FAFF;
+      border: 1px solid #DBEAFE;
+    }
+    .pillar-name { font-size: 13px; font-weight: 700; color: #1A1A2E; min-width: 180px; }
+    .pillar-bar-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 10px; }
+    .pillar-bar-inner { height: 10px; border-radius: 99px; transition: width 0.6s; }
+    .pillar-score { font-size: 13px; font-weight: 700; min-width: 40px; text-align: right; }
+
+    .blind-spots {
+      background: #FFF8F0;
+      border: 1px solid #FDE68A;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 20px;
+    }
+    .blind-spots h4 { font-size: 14px; font-weight: 700; color: #92400E; margin-bottom: 10px; }
+    .blind-spot-item { font-size: 13px; color: #78350F; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
+    .blind-spot-item::before { content: "⚠"; position: absolute; left: 0; }
+
+    .strengths {
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 14px;
+    }
+    .strengths h4 { font-size: 14px; font-weight: 700; color: #14532D; margin-bottom: 10px; }
+    .strength-item { font-size: 13px; color: #166534; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
+    .strength-item::before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+
+    .cta-box {
+      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      border: 1px solid #BFDBFE;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-top: 24px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 18px; font-weight: 700; color: #1E40AF; margin-bottom: 8px; }
+    .cta-box p { font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 6px; }
+    .cta-box .price { font-size: 28px; font-weight: 800; color: #2563EB; margin: 10px 0 4px; }
+    .cta-box .price-note { font-size: 12px; color: #6B7280; margin-bottom: 16px; }
+    .cta-link {
+      display: inline-block;
+      background: #2563EB;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .cta-link:hover { background: #1E40AF; }
+
+    footer {
+      background: #1E40AF;
+      color: #BFDBFE;
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      margin-top: 40px;
+    }
+    footer a { color: #93C5FD; text-decoration: none; }
+    footer .ft { font-style: italic; color: #93C5FD; margin-top: 6px; }
+
+    @media (max-width: 600px) {
+      header { flex-direction: column; gap: 6px; text-align: center; }
+      .hero h1 { font-size: 22px; }
+      .pillar-name { min-width: 120px; font-size: 12px; }
+      .results-body { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand">Customers Fit LLC</div>
+    <div class="tagline">Preference isn't permanent.</div>
+  </div>
+  <a href="https://www.customersfit.com" target="_blank">Visit customersfit.com →</a>
+</header>
+
+<div class="hero">
+  <h1>Customer Blind Spot Detector</h1>
+  <p>For CEOs and founders of growing operational businesses — find where customer perception is quietly costing you margin, preference, and growth.</p>
+  <div class="instruction">Rate each question from 1 (complete blind spot) to 5 (crystal clear). Your lowest scores reveal where clients are most likely drifting.</div>
+</div>
+
+<div class="container">
+
+  <div class="progress-bar-wrap">
+    <label>Your progress</label>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+    <div class="progress-count" id="progressCount">0 / 15 answered</div>
+  </div>
+
+  <form id="detectorForm">
+
+    <!-- SECTIONS -->
+    <div id="sections-container"></div>
+
+    <button type="button" class="calculate-btn" id="calcBtn" onclick="calculateScore()">
+      See My Results →
+    </button>
+
+  </form>
+
+  <!-- RESULTS -->
+  <div class="results-card" id="resultsCard">
+    <div class="results-header">
+      <h2>Your Blind Spot Report</h2>
+      <div class="score-circle">
+        <div class="score-number" id="totalScore">0</div>
+        <div class="score-denom">/ 75</div>
+      </div>
+      <div class="score-label" id="scoreLabel"></div>
+      <div class="score-description" id="scoreDesc"></div>
+    </div>
+    <div class="results-body">
+      <h3>Score by Area</h3>
+      <div id="pillarResults"></div>
+      <div id="blindSpotsBox"></div>
+      <div id="strengthsBox"></div>
+      <div class="cta-box">
+        <h3>Ready to close these gaps?</h3>
+        <p>The Customer Fit Diagnostic is a focused 90-minute working session where we find your highest-priority customer perception gaps and what they're costing you.</p>
+        <div class="price">$500</div>
+        <div class="price-note">Applied toward your 90-day engagement if you decide to go further.</div>
+        <a href="https://calendly.com/patricia-rubio/30min-chat" target="_blank" class="cta-link">Start with a Customer Fit Diagnostic →</a>
+        <p style="margin-top:14px; font-size:12px; color:#6B7280;">hello@patriciarubio.com &nbsp;|&nbsp; www.customersfit.com</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>Patricia Rubio &nbsp;|&nbsp; Customer Keeper &nbsp;|&nbsp; Founder, Customers Fit LLC</div>
+  <div><a href="mailto:hello@patriciarubio.com">hello@patriciarubio.com</a> &nbsp;|&nbsp; <a href="https://www.customersfit.com" target="_blank">www.customersfit.com</a></div>
+  <div class="ft">Preference isn't permanent.</div>
+  <div style="margin-top:8px; font-size:11px;">© 2026 Customers Fit LLC. All rights reserved.</div>
+</footer>
+
+<script>
+const sections = [
+  {
+    number: "01",
+    title: "Purchase Triggers",
+    subtitle: "What actually prompts your clients to call you",
+    questions: [
+      "Do you know the specific moment or pain point that causes a client to reach out — rather than wait?",
+      "Can you identify what finally tips a prospect from considering you to committing?",
+      "Do you understand why clients chose you this time — versus the last time they had a similar need?"
+    ],
+    quickWin: "Call three recent clients and ask what specifically made them reach out when they did — not why they chose you, but why they called when they did."
+  },
+  {
+    number: "02",
+    title: "Value Perception",
+    subtitle: "What clients actually value vs. what you think they value",
+    questions: [
+      "Can you rank the top three things your best clients say they value about working with you?",
+      "Do you know which parts of your service clients would notice immediately if they disappeared?",
+      "Have you identified which parts of your delivery clients don't value — or don't even notice?"
+    ],
+    quickWin: "Ask your three best clients to tell you in their own words what they'd lose if they stopped working with you. The answer will surprise you."
+  },
+  {
+    number: "03",
+    title: "Friction Points",
+    subtitle: "Where clients quietly disengage",
+    questions: [
+      "Do you know at which point in a client relationship satisfaction starts to quietly erode?",
+      "Can you identify where your delivery process creates confusion or unmet expectations?",
+      "Do you know what clients wish you did differently — that they've never told you directly?"
+    ],
+    quickWin: "Map your client journey from contract signed to renewal. Mark every handoff. Those handoffs are where perception breaks down."
+  },
+  {
+    number: "04",
+    title: "Loyalty Drivers",
+    subtitle: "Why your best clients stay — and others don't",
+    questions: [
+      "Do you know what would make your top three clients seriously consider a competitor?",
+      "Can you identify the moments in your service that most strengthen client trust?",
+      "Do you understand why some satisfied clients expand their relationship and others plateau?"
+    ],
+    quickWin: "Compare your top three expanding accounts to your top three plateauing ones. The difference is usually in one specific moment of the relationship."
+  },
+  {
+    number: "05",
+    title: "Word-of-Mouth Catalysts",
+    subtitle: "Why clients refer you — or don't",
+    questions: [
+      "Do you know exactly what your clients tell others when they recommend you?",
+      "Have you identified which specific experiences trigger a referral — and which ones don't?",
+      "Do you understand why some of your happiest clients have never referred anyone?"
+    ],
+    quickWin: "Ask your last three referral sources what they specifically said about you when they made the introduction. That language is your positioning — use it."
+  }
+];
+
+const totalQuestions = sections.reduce((a, s) => a + s.questions.length, 0);
+let answered = 0;
+const ratings = {};
+
+function getColor(score, max) {
+  const pct = score / max;
+  if (pct < 0.4) return '#EF4444';
+  if (pct < 0.65) return '#F59E0B';
+  return '#10B981';
+}
+
+function getBtnClass(val) {
+  if (val <= 2) return 'selected-low';
+  if (val <= 3) return 'selected-mid';
+  return 'selected-high';
+}
+
+function updateProgress() {
+  const pct = (answered / totalQuestions) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = answered + ' / ' + totalQuestions + ' answered';
+  document.getElementById('calcBtn').disabled = answered < totalQuestions;
+}
+
+function buildSections() {
+  const container = document.getElementById('sections-container');
+  sections.forEach((sec, si) => {
+    const card = document.createElement('div');
+    card.className = 'section-card';
+
+    let html = `
+      <div class="section-header">
+        <div class="section-number">${sec.number}</div>
+        <div>
+          <div class="section-title">${sec.title}</div>
+          <div class="section-subtitle">${sec.subtitle}</div>
+        </div>
+      </div>
+      <div class="section-body">
+    `;
+
+    sec.questions.forEach((q, qi) => {
+      const key = `s${si}q${qi}`;
+      html += `
+        <div class="question-block">
+          <div class="question-text">${q}</div>
+          <div class="rating-row" id="row-${key}">
+            ${[1,2,3,4,5].map(v => `<button type="button" class="rating-btn" data-key="${key}" data-val="${v}" onclick="selectRating('${key}', ${v})">${v}</button>`).join('')}
+          </div>
+          <div class="rating-labels"><span>Complete blind spot</span><span>Crystal clear</span></div>
+        </div>
+      `;
+    });
+
+    html += `<div class="quick-win"><strong>Quick Win:</strong> ${sec.quickWin}</div>`;
+    html += `</div>`;
+    html += `
+      <div class="section-score-bar">
+        <span class="section-score-label">${sec.title} score</span>
+        <div class="section-score-outer"><div class="section-score-inner" id="sec-bar-${si}"></div></div>
+        <span class="section-score-val" id="sec-val-${si}">–</span>
+      </div>
+    `;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+}
+
+function selectRating(key, val) {
+  const wasAnswered = ratings[key] !== undefined;
+  ratings[key] = val;
+  if (!wasAnswered) { answered++; updateProgress(); }
+
+  // Update buttons
+  const row = document.getElementById('row-' + key);
+  row.querySelectorAll('.rating-btn').forEach(btn => {
+    btn.classList.remove('selected', 'selected-low', 'selected-mid', 'selected-high');
+    if (parseInt(btn.dataset.val) === val) {
+      btn.classList.add(getBtnClass(val));
+    }
+  });
+
+  // Update section score
+  const parts = key.split('q');
+  const si = parseInt(parts[0].replace('s',''));
+  const sec = sections[si];
+  let secTotal = 0; let secAnswered = 0;
+  sec.questions.forEach((_, qi) => {
+    const k = `s${si}q${qi}`;
+    if (ratings[k] !== undefined) { secTotal += ratings[k]; secAnswered++; }
+  });
+  const maxSec = sec.questions.length * 5;
+  const pct = secAnswered > 0 ? (secTotal / (secAnswered * 5)) * 100 : 0;
+  const bar = document.getElementById(`sec-bar-${si}`);
+  const valEl = document.getElementById(`sec-val-${si}`);
+  bar.style.width = pct + '%';
+  bar.style.background = getColor(secTotal, secAnswered * 5);
+  valEl.textContent = secAnswered === sec.questions.length ? secTotal + '/' + maxSec : secTotal + '…';
+  valEl.style.color = getColor(secTotal, secAnswered * 5);
+}
+
+function calculateScore() {
+  let total = 0;
+  const pillarScores = sections.map((sec, si) => {
+    let s = 0;
+    sec.questions.forEach((_, qi) => { s += ratings[`s${si}q${qi}`] || 0; });
+    total += s;
+    return { title: sec.title, score: s, max: sec.questions.length * 5 };
+  });
+
+  document.getElementById('totalScore').textContent = total;
+
+  let label, desc, headerBg;
+  if (total <= 30) {
+    label = "Significant Blind Spots"; desc = "There are several areas where customer perception is likely costing you margin and preference right now. The good news — these gaps are findable and fixable before they show up as a crisis.";
+  } else if (total <= 50) {
+    label = "Some Critical Gaps"; desc = "You have real strengths, but there are specific areas where client perception and your delivery are quietly misaligned. Finding those gaps now — before the numbers scream — is exactly the right move.";
+  } else if (total <= 65) {
+    label = "Good Awareness, Room to Sharpen"; desc = "You understand your clients reasonably well, but there are still gaps that could be costing you. The highest-value clients often come from closing the last 20% of the perception gap.";
+  } else {
+    label = "Strong Customer Clarity"; desc = "You have strong visibility into what your clients value. The opportunity now is to embed that insight into how your whole team operates — so it compounds over time.";
+  }
+
+  document.getElementById('scoreLabel').textContent = label;
+  document.getElementById('scoreDesc').textContent = desc;
+
+  // Pillar results
+  const pillarContainer = document.getElementById('pillarResults');
+  pillarContainer.innerHTML = '';
+  pillarScores.forEach(p => {
+    const pct = (p.score / p.max) * 100;
+    const color = getColor(p.score, p.max);
+    pillarContainer.innerHTML += `
+      <div class="pillar-result">
+        <div class="pillar-name">${p.title}</div>
+        <div class="pillar-bar-outer"><div class="pillar-bar-inner" style="width:${pct}%; background:${color};"></div></div>
+        <div class="pillar-score" style="color:${color}">${p.score}/${p.max}</div>
+      </div>
+    `;
+  });
+
+  // Blind spots
+  const weak = pillarScores.filter(p => p.score / p.max < 0.5);
+  const strong = pillarScores.filter(p => p.score / p.max >= 0.7);
+
+  const blindBox = document.getElementById('blindSpotsBox');
+  if (weak.length > 0) {
+    blindBox.innerHTML = `
+      <div class="blind-spots">
+        <h4>Your Biggest Blind Spots</h4>
+        ${weak.map(p => `<div class="blind-spot-item">${p.title} (${p.score}/${p.max}) — this is where client perception is most likely working against you.</div>`).join('')}
+      </div>
+    `;
+  } else { blindBox.innerHTML = ''; }
+
+  const strBox = document.getElementById('strengthsBox');
+  if (strong.length > 0) {
+    strBox.innerHTML = `
+      <div class="strengths">
+        <h4>Your Strengths</h4>
+        ${strong.map(p => `<div class="strength-item">${p.title} (${p.score}/${p.max}) — you have strong clarity here. Protect it.</div>`).join('')}
+      </div>
+    `;
+  } else { strBox.innerHTML = ''; }
+
+  const resultsCard = document.getElementById('resultsCard');
+  resultsCard.style.display = 'block';
+  setTimeout(() => resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+// Init
+buildSections();
+updateProgress();
+</script>
+</body>
+</html>
