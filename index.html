@@ -3,6 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Customer Blind Spot Detector | Customers Fit" />
+  <meta property="og:description" content="Find where customer perception is quietly costing you margin, preference, and growth. 15 questions. Free." />
+  <meta property="og:image" content="https://custfit.github.io/blindspotdetector/preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="628" />
+  <meta property="og:url" content="https://custfit.github.io/blindspotdetector/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Customer Blind Spot Detector | Customers Fit" />
+  <meta name="twitter:description" content="Find where customer perception is quietly costing you margin, preference, and growth. 15 questions. Free." />
+  <meta name="twitter:image" content="https://custfit.github.io/blindspotdetector/preview.jpg" />
   <title>Customer Blind Spot Detector | Customers Fit</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -223,7 +234,7 @@
     }
     .blind-spots h4 { font-size: 14px; font-weight: 700; color: #92400E; margin-bottom: 10px; }
     .blind-spot-item { font-size: 13px; color: #78350F; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
-    .blind-spot-item::before { content: "⚠"; position: absolute; left: 0; }
+    .blind-spot-item::before { content: "\26A0"; position: absolute; left: 0; }
 
     .strengths {
       background: #F0FDF4;
@@ -234,7 +245,7 @@
     }
     .strengths h4 { font-size: 14px; font-weight: 700; color: #14532D; margin-bottom: 10px; }
     .strength-item { font-size: 13px; color: #166534; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
-    .strength-item::before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+    .strength-item::before { content: "\2713"; position: absolute; left: 0; font-weight: 700; }
 
     .cta-box {
       background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
@@ -305,17 +316,12 @@
   </div>
 
   <form id="detectorForm">
-
-    <!-- SECTIONS -->
     <div id="sections-container"></div>
-
     <button type="button" class="calculate-btn" id="calcBtn" onclick="calculateScore()">
       See My Results →
     </button>
-
   </form>
 
-  <!-- RESULTS -->
   <div class="results-card" id="resultsCard">
     <div class="results-header">
       <h2>Your Blind Spot Report</h2>
@@ -333,10 +339,10 @@
       <div id="strengthsBox"></div>
       <div class="cta-box">
         <h3>Ready to close these gaps?</h3>
-        <p>The Customer Fit Diagnostic is a focused 90-minute working session where we find your highest-priority customer perception gaps and what they're costing you.</p>
+        <p>The Customer Fit Diagnostic is a focused 60-minute working session where we find your highest-priority customer perception gaps and what they're costing you. We review your business data together, find the gaps, and build your action plan.</p>
         <div class="price">$500</div>
-        <div class="price-note">Applied toward your 90-day engagement if you decide to go further.</div>
-        <a href="https://calendly.com/patricia-rubio/30min-chat" target="_blank" class="cta-link">Start with a Customer Fit Diagnostic →</a>
+        <div class="price-note">No long commitment. Applied toward your 90-day engagement if you decide to go further.</div>
+        <a href="https://calendly.com/patricia-rubio/30min-chat" target="_blank" class="cta-link">Book your 60-minute session →</a>
         <p style="margin-top:14px; font-size:12px; color:#6B7280;">hello@patriciarubio.com &nbsp;|&nbsp; www.customersfit.com</p>
       </div>
     </div>
@@ -439,7 +445,6 @@ function buildSections() {
   sections.forEach((sec, si) => {
     const card = document.createElement('div');
     card.className = 'section-card';
-
     let html = `
       <div class="section-header">
         <div class="section-number">${sec.number}</div>
@@ -450,7 +455,6 @@ function buildSections() {
       </div>
       <div class="section-body">
     `;
-
     sec.questions.forEach((q, qi) => {
       const key = `s${si}q${qi}`;
       html += `
@@ -463,7 +467,6 @@ function buildSections() {
         </div>
       `;
     });
-
     html += `<div class="quick-win"><strong>Quick Win:</strong> ${sec.quickWin}</div>`;
     html += `</div>`;
     html += `
@@ -473,7 +476,6 @@ function buildSections() {
         <span class="section-score-val" id="sec-val-${si}">–</span>
       </div>
     `;
-
     card.innerHTML = html;
     container.appendChild(card);
   });
@@ -483,17 +485,11 @@ function selectRating(key, val) {
   const wasAnswered = ratings[key] !== undefined;
   ratings[key] = val;
   if (!wasAnswered) { answered++; updateProgress(); }
-
-  // Update buttons
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.rating-btn').forEach(btn => {
     btn.classList.remove('selected', 'selected-low', 'selected-mid', 'selected-high');
-    if (parseInt(btn.dataset.val) === val) {
-      btn.classList.add(getBtnClass(val));
-    }
+    if (parseInt(btn.dataset.val) === val) btn.classList.add(getBtnClass(val));
   });
-
-  // Update section score
   const parts = key.split('q');
   const si = parseInt(parts[0].replace('s',''));
   const sec = sections[si];
@@ -520,10 +516,8 @@ function calculateScore() {
     total += s;
     return { title: sec.title, score: s, max: sec.questions.length * 5 };
   });
-
   document.getElementById('totalScore').textContent = total;
-
-  let label, desc, headerBg;
+  let label, desc;
   if (total <= 30) {
     label = "Significant Blind Spots"; desc = "There are several areas where customer perception is likely costing you margin and preference right now. The good news — these gaps are findable and fixable before they show up as a crisis.";
   } else if (total <= 50) {
@@ -533,11 +527,8 @@ function calculateScore() {
   } else {
     label = "Strong Customer Clarity"; desc = "You have strong visibility into what your clients value. The opportunity now is to embed that insight into how your whole team operates — so it compounds over time.";
   }
-
   document.getElementById('scoreLabel').textContent = label;
   document.getElementById('scoreDesc').textContent = desc;
-
-  // Pillar results
   const pillarContainer = document.getElementById('pillarResults');
   pillarContainer.innerHTML = '';
   pillarScores.forEach(p => {
@@ -551,37 +542,21 @@ function calculateScore() {
       </div>
     `;
   });
-
-  // Blind spots
   const weak = pillarScores.filter(p => p.score / p.max < 0.5);
   const strong = pillarScores.filter(p => p.score / p.max >= 0.7);
-
   const blindBox = document.getElementById('blindSpotsBox');
   if (weak.length > 0) {
-    blindBox.innerHTML = `
-      <div class="blind-spots">
-        <h4>Your Biggest Blind Spots</h4>
-        ${weak.map(p => `<div class="blind-spot-item">${p.title} (${p.score}/${p.max}) — this is where client perception is most likely working against you.</div>`).join('')}
-      </div>
-    `;
+    blindBox.innerHTML = `<div class="blind-spots"><h4>Your Biggest Blind Spots</h4>${weak.map(p => `<div class="blind-spot-item">${p.title} (${p.score}/${p.max}) — this is where client perception is most likely working against you.</div>`).join('')}</div>`;
   } else { blindBox.innerHTML = ''; }
-
   const strBox = document.getElementById('strengthsBox');
   if (strong.length > 0) {
-    strBox.innerHTML = `
-      <div class="strengths">
-        <h4>Your Strengths</h4>
-        ${strong.map(p => `<div class="strength-item">${p.title} (${p.score}/${p.max}) — you have strong clarity here. Protect it.</div>`).join('')}
-      </div>
-    `;
+    strBox.innerHTML = `<div class="strengths"><h4>Your Strengths</h4>${strong.map(p => `<div class="strength-item">${p.title} (${p.score}/${p.max}) — you have strong clarity here. Protect it.</div>`).join('')}</div>`;
   } else { strBox.innerHTML = ''; }
-
   const resultsCard = document.getElementById('resultsCard');
   resultsCard.style.display = 'block';
   setTimeout(() => resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
-// Init
 buildSections();
 updateProgress();
 </script>
