@@ -15,335 +15,391 @@
   <meta name="twitter:description" content="Find where customer perception is quietly costing you margin, preference, and growth. 15 questions. Free." />
   <meta name="twitter:image" content="https://custfit.github.io/blindspotdetector/preview.jpg" />
   <title>Customer Blind Spot Detector | Customers Fit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0f4ff;
-      color: #1A1A2E;
-      min-height: 100vh;
+    :root {
+      --navy:      #1a3a5c;
+      --navy-mid:  #1e4976;
+      --blue:      #2563EB;
+      --blue-lt:   #3b82f6;
+      --bg-page:   #f0f4ff;
+      --bg-card:   #ffffff;
+      --bg-soft:   #eff6ff;
+      --bg-mid:    #dbeafe;
+      --border:    #e0eaff;
+      --text:      #0f0f0f;
+      --muted:     #374151;
+      --low:       #dc2626;
+      --mid:       #d97706;
+      --high:      #16a34a;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans:  'Jost', system-ui, sans-serif;
     }
 
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* HEADER */
     header {
-      background: #2563EB;
-      padding: 18px 32px;
+      background: var(--navy);
+      padding: 14px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky; top: 0; z-index: 100;
     }
-    header .brand { color: white; font-size: 18px; font-weight: 700; }
-    header .tagline { color: #BFDBFE; font-size: 13px; font-style: italic; }
-    header a { color: #BFDBFE; font-size: 13px; text-decoration: none; }
-    header a:hover { color: white; }
+    .header-left { display: flex; flex-direction: column; gap: 2px; }
+    .brand { color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+    .tagline { color: #93c5fd; font-size: 12px; font-style: italic; font-family: var(--font-serif); }
+    .header-link { color: #93c5fd; font-size: 12px; text-decoration: none; font-weight: 400; transition: color 0.2s; }
+    .header-link:hover { color: white; }
 
+    /* HERO */
     .hero {
-      background: linear-gradient(135deg, #1E40AF 0%, #2563EB 100%);
+      background: linear-gradient(150deg, var(--navy) 0%, var(--navy-mid) 50%, #1e5fa3 100%);
       color: white;
       text-align: center;
-      padding: 48px 24px 40px;
+      padding: 56px 24px 48px;
     }
-    .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
-    .hero p { font-size: 15px; color: #BFDBFE; max-width: 620px; margin: 0 auto 8px; line-height: 1.6; }
-    .hero .instruction {
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #93c5fd;
+      margin-bottom: 1rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 20px; height: 1px; background: #93c5fd; opacity: 0.5;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 500; line-height: 1.15;
+      color: white; margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 17px; color: #dbeafe;
+      max-width: 580px; margin: 0 auto 1.5rem;
+      line-height: 1.75; font-weight: 400;
+    }
+    .hero-badge {
       display: inline-block;
-      margin-top: 16px;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 13px;
-      color: #EFF6FF;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 3px;
+      padding: 10px 22px;
+      font-size: 13px; color: #eff6ff;
+      font-weight: 400; letter-spacing: 0.03em;
     }
 
-    .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 48px; }
+    /* CONTAINER */
+    .container { max-width: 760px; margin: 0 auto; padding: 32px 20px 56px; }
 
-    .progress-bar-wrap {
+    /* PROGRESS */
+    .progress-wrap {
       background: white;
-      border-radius: 12px;
-      padding: 16px 24px;
+      border-radius: 8px;
+      padding: 16px 22px;
       margin-bottom: 28px;
-      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 1px 4px rgba(37,99,235,0.07);
     }
-    .progress-bar-wrap label { font-size: 13px; color: #6B7280; white-space: nowrap; }
-    .progress-bar-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 10px; }
-    .progress-bar-inner { height: 10px; border-radius: 99px; background: #2563EB; transition: width 0.4s ease; width: 0%; }
-    .progress-count { font-size: 13px; font-weight: 700; color: #2563EB; white-space: nowrap; }
+    .progress-label { font-size: 13px; color: var(--text); white-space: nowrap; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .progress-outer { flex: 1; background: var(--bg-mid); border-radius: 99px; height: 8px; }
+    .progress-inner { height: 8px; border-radius: 99px; background: var(--blue); transition: width 0.4s ease; width: 0%; }
+    .progress-count { font-size: 13px; font-weight: 600; color: var(--blue); white-space: nowrap; }
 
+    /* SECTION CARD */
     .section-card {
       background: white;
-      border-radius: 14px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(37,99,235,0.06);
       overflow: hidden;
     }
     .section-header {
-      background: #1E40AF;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 16px;
     }
     .section-number {
-      background: rgba(255,255,255,0.15);
-      color: #93C5FD;
-      font-size: 22px;
-      font-weight: 800;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      background: rgba(255,255,255,0.12);
+      color: #93c5fd;
+      font-size: 18px; font-weight: 600;
+      width: 40px; height: 40px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: var(--font-serif);
     }
-    .section-title { color: white; font-size: 15px; font-weight: 700; }
-    .section-subtitle { color: #BFDBFE; font-size: 12px; margin-top: 2px; }
+    .section-title { color: white; font-size: 16px; font-weight: 600; }
+    .section-subtitle { color: #dbeafe; font-size: 13px; margin-top: 3px; font-weight: 400; }
+    .section-body { padding: 22px 24px; }
 
-    .section-body { padding: 20px 24px; }
-
-    .question-block { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #EFF6FF; }
+    /* QUESTIONS */
+    .question-block {
+      margin-bottom: 22px; padding-bottom: 22px;
+      border-bottom: 1px solid var(--bg-soft);
+    }
     .question-block:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .question-text { font-size: 14px; color: #1A1A2E; line-height: 1.5; margin-bottom: 12px; }
+    .question-text { font-size: 17px; color: var(--text); line-height: 1.65; margin-bottom: 14px; font-weight: 400; }
 
-    .rating-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    /* RATING BUTTONS */
+    .rating-row { display: flex; gap: 8px; }
     .rating-btn {
-      width: 44px; height: 44px;
-      border-radius: 8px;
-      border: 2px solid #DBEAFE;
-      background: #F8FAFF;
-      color: #6B7280;
-      font-size: 15px;
-      font-weight: 700;
+      flex: 1; height: 46px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--muted);
+      font-size: 16px; font-weight: 600;
+      font-family: var(--font-sans);
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: all 0.15s ease;
       display: flex; align-items: center; justify-content: center;
     }
-    .rating-btn:hover { border-color: #2563EB; color: #2563EB; background: #EFF6FF; }
-    .rating-btn.selected { background: #2563EB; border-color: #2563EB; color: white; }
-    .rating-btn.selected-low { background: #EF4444; border-color: #EF4444; color: white; }
-    .rating-btn.selected-mid { background: #F59E0B; border-color: #F59E0B; color: white; }
-    .rating-btn.selected-high { background: #10B981; border-color: #10B981; color: white; }
+    .rating-btn:hover { border-color: var(--blue); color: var(--blue); background: #eff6ff; transform: translateY(-1px); }
+    .rating-btn.sel-1 { background: #fef2f2; border-color: var(--low); color: var(--low); }
+    .rating-btn.sel-2 { background: #fff7ed; border-color: #f97316; color: #ea580c; }
+    .rating-btn.sel-3 { background: #fefce8; border-color: var(--mid); color: var(--mid); }
+    .rating-btn.sel-4 { background: #f0fdf4; border-color: #4ade80; color: #15803d; }
+    .rating-btn.sel-5 { background: #f0fdf4; border-color: var(--high); color: var(--high); }
 
     .rating-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 6px;
-      font-size: 10px;
-      color: #9CA3AF;
-    }
-
-    .quick-win {
-      background: #EFF6FF;
-      border-left: 3px solid #2563EB;
-      border-radius: 0 8px 8px 0;
-      padding: 10px 14px;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #1E40AF;
-      line-height: 1.5;
-    }
-    .quick-win strong { color: #2563EB; }
-
-    .section-score-bar {
-      background: #EFF6FF;
-      border-radius: 0 0 14px 14px;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-top: 1px solid #DBEAFE;
-    }
-    .section-score-label { font-size: 12px; color: #6B7280; }
-    .section-score-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 8px; }
-    .section-score-inner { height: 8px; border-radius: 99px; background: #2563EB; transition: width 0.4s; width: 0%; }
-    .section-score-val { font-size: 12px; font-weight: 700; color: #2563EB; min-width: 32px; text-align: right; }
-
-    .calculate-btn {
-      display: block;
-      width: 100%;
-      padding: 18px;
-      background: #2563EB;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
+      display: flex; justify-content: space-between;
       margin-top: 8px;
-      transition: background 0.2s;
-      letter-spacing: 0.3px;
+      font-size: 12px; color: var(--muted); font-weight: 400;
     }
-    .calculate-btn:hover { background: #1E40AF; }
-    .calculate-btn:disabled { background: #93C5FD; cursor: not-allowed; }
 
+    /* QUICK WIN */
+    .quick-win {
+      background: var(--bg-soft);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 15px; color: var(--text); line-height: 1.65;
+    }
+    .quick-win strong { color: var(--blue); font-weight: 600; }
+
+    /* SECTION SCORE BAR */
+    .section-score-bar {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sec-score-label { font-size: 13px; color: var(--text); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .sec-score-outer { flex: 1; background: var(--bg-mid); border-radius: 99px; height: 6px; }
+    .sec-score-inner { height: 6px; border-radius: 99px; background: var(--blue); transition: width 0.4s; width: 0%; }
+    .sec-score-val { font-size: 12px; font-weight: 600; color: var(--blue); min-width: 36px; text-align: right; }
+
+    /* CALCULATE BUTTON */
+    .calc-btn {
+      display: block; width: 100%;
+      padding: 17px;
+      background: var(--blue);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 14px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; border-radius: 6px;
+      cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .calc-btn:hover { background: var(--navy-mid); transform: translateY(-1px); }
+    .calc-btn:disabled { background: #93c5fd; cursor: not-allowed; transform: none; }
+
+    /* RESULTS */
     .results-card {
       display: none;
       background: white;
-      border-radius: 14px;
+      border-radius: 10px;
       margin-top: 28px;
-      box-shadow: 0 4px 20px rgba(37,99,235,0.12);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(37,99,235,0.1);
       overflow: hidden;
     }
     .results-header {
-      background: linear-gradient(135deg, #1E40AF, #2563EB);
-      padding: 28px 32px;
+      background: linear-gradient(150deg, var(--navy) 0%, var(--navy-mid) 60%, #1e5fa3 100%);
+      padding: 36px 32px;
       text-align: center;
       color: white;
     }
-    .results-header h2 { font-size: 22px; margin-bottom: 8px; }
+    .results-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #dbeafe; margin-bottom: 0.5rem;
+    }
+    .results-header h2 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem; font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
     .score-circle {
-      width: 110px; height: 110px;
+      width: 116px; height: 116px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      border: 4px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.3);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      margin: 16px auto 4px;
+      margin: 0 auto 1rem;
     }
-    .score-number { font-size: 36px; font-weight: 800; color: white; line-height: 1; }
-    .score-denom { font-size: 14px; color: #BFDBFE; }
-    .score-label { font-size: 20px; font-weight: 700; color: white; margin-top: 8px; }
-    .score-description { font-size: 14px; color: #BFDBFE; margin-top: 6px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+    .score-big { font-family: var(--font-serif); font-size: 44px; font-weight: 500; color: white; line-height: 1; }
+    .score-denom { font-size: 14px; color: #bfdbfe; margin-top: 2px; }
+    .score-verdict { font-family: var(--font-serif); font-size: 1.7rem; font-style: italic; color: white; margin-bottom: 0.75rem; }
+    .score-desc { font-size: 16px; color: #dbeafe; max-width: 480px; margin: 0 auto; line-height: 1.7; font-weight: 400; }
 
-    .results-body { padding: 28px 32px; }
-    .results-body h3 { font-size: 16px; font-weight: 700; color: #1E40AF; margin-bottom: 16px; }
+    .results-body { padding: 32px; }
+    .results-section-title {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text);
+      margin-bottom: 1rem;
+    }
 
-    .pillar-result {
+    .pillar-row {
       display: flex; align-items: center; gap: 14px;
-      margin-bottom: 14px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      background: #F8FAFF;
-      border: 1px solid #DBEAFE;
+      margin-bottom: 12px; padding: 13px 16px;
+      border-radius: 7px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
     }
-    .pillar-name { font-size: 13px; font-weight: 700; color: #1A1A2E; min-width: 180px; }
-    .pillar-bar-outer { flex: 1; background: #DBEAFE; border-radius: 99px; height: 10px; }
-    .pillar-bar-inner { height: 10px; border-radius: 99px; transition: width 0.6s; }
-    .pillar-score { font-size: 13px; font-weight: 700; min-width: 40px; text-align: right; }
+    .pillar-name { font-size: 15px; font-weight: 500; color: var(--text); min-width: 180px; }
+    .pillar-bar-outer { flex: 1; background: var(--bg-mid); border-radius: 99px; height: 8px; }
+    .pillar-bar-inner { height: 8px; border-radius: 99px; transition: width 0.6s; }
+    .pillar-score { font-size: 13px; font-weight: 600; min-width: 40px; text-align: right; }
 
-    .blind-spots {
-      background: #FFF8F0;
-      border: 1px solid #FDE68A;
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin-top: 20px;
+    .gaps-box {
+      background: #fff8f0; border: 1px solid #fde68a;
+      border-radius: 8px; padding: 18px 22px; margin-top: 20px;
     }
-    .blind-spots h4 { font-size: 14px; font-weight: 700; color: #92400E; margin-bottom: 10px; }
-    .blind-spot-item { font-size: 13px; color: #78350F; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
-    .blind-spot-item::before { content: "\26A0"; position: absolute; left: 0; }
+    .gaps-box h4 { font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7c2d12; margin-bottom: 12px; }
+    .gap-item { font-size: 15px; color: #7c2d12; margin-bottom: 10px; padding-left: 20px; position: relative; line-height: 1.6; }
+    .gap-item::before { content: "⚠"; position: absolute; left: 0; font-size: 13px; }
 
-    .strengths {
-      background: #F0FDF4;
-      border: 1px solid #86EFAC;
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin-top: 14px;
+    .strengths-box {
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 8px; padding: 18px 22px; margin-top: 14px;
     }
-    .strengths h4 { font-size: 14px; font-weight: 700; color: #14532D; margin-bottom: 10px; }
-    .strength-item { font-size: 13px; color: #166534; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; }
-    .strength-item::before { content: "\2713"; position: absolute; left: 0; font-weight: 700; }
+    .strengths-box h4 { font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #14532d; margin-bottom: 12px; }
+    .strength-item { font-size: 15px; color: #14532d; margin-bottom: 10px; padding-left: 20px; position: relative; line-height: 1.6; }
+    .strength-item::before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
 
+    /* CTA */
     .cta-box {
-      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-      border: 1px solid #BFDBFE;
-      border-radius: 12px;
-      padding: 24px 28px;
+      background: linear-gradient(135deg, var(--bg-soft), var(--bg-mid));
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 28px 32px;
       margin-top: 24px;
       text-align: center;
     }
-    .cta-box h3 { font-size: 18px; font-weight: 700; color: #1E40AF; margin-bottom: 8px; }
-    .cta-box p { font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 6px; }
-    .cta-box .price { font-size: 28px; font-weight: 800; color: #2563EB; margin: 10px 0 4px; }
-    .cta-box .price-note { font-size: 12px; color: #6B7280; margin-bottom: 16px; }
-    .cta-link {
-      display: inline-block;
-      background: #2563EB;
-      color: white;
-      padding: 14px 32px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
+    .cta-box h3 {
+      font-family: var(--font-serif);
+      font-size: 1.7rem; font-weight: 500;
+      color: var(--navy); margin-bottom: 0.75rem;
     }
-    .cta-link:hover { background: #1E40AF; }
+    .cta-box p { font-size: 16px; color: #1f2937; line-height: 1.7; margin-bottom: 1.25rem; font-weight: 400; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 15px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      width: 100%; text-align: center;
+    }
+    .cta-btn:hover { background: var(--navy-mid); transform: translateY(-1px); }
+    .cta-note {
+      margin-top: 1rem; font-style: italic;
+      font-family: var(--font-serif); font-size: 16px; color: var(--muted);
+    }
 
+    /* FOOTER */
     footer {
-      background: #1E40AF;
-      color: #BFDBFE;
+      background: var(--navy);
+      color: #bfdbfe;
       text-align: center;
-      padding: 20px;
-      font-size: 13px;
+      padding: 28px 20px;
+      font-size: 14px; font-weight: 400;
       margin-top: 40px;
     }
-    footer a { color: #93C5FD; text-decoration: none; }
-    footer .ft { font-style: italic; color: #93C5FD; margin-top: 6px; }
+    footer a { color: #93c5fd; text-decoration: none; }
+    footer a:hover { color: white; }
+    .footer-tagline { font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; color: #e0eaff; margin-bottom: 0.75rem; }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 0.75rem; letter-spacing: 0.04em; }
 
     @media (max-width: 600px) {
-      header { flex-direction: column; gap: 6px; text-align: center; }
-      .hero h1 { font-size: 22px; }
+      header { flex-direction: column; gap: 8px; text-align: center; padding: 14px 20px; }
+      .hero { padding: 40px 20px 36px; }
+      .container { padding: 24px 14px 48px; }
+      .section-body { padding: 18px 16px; }
       .pillar-name { min-width: 120px; font-size: 12px; }
-      .results-body { padding: 20px 16px; }
+      .results-body { padding: 24px 18px; }
+      .cta-box { padding: 22px 20px; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <div class="brand">Customers Fit LLC</div>
+  <div class="header-left">
+    <a class="brand" href="https://www.customersfit.com">Customers Fit</a>
     <div class="tagline">Preference isn't permanent.</div>
   </div>
-  <a href="https://www.customersfit.com" target="_blank">Visit customersfit.com →</a>
+  <a class="header-link" href="https://www.customersfit.com">Visit customersfit.com →</a>
 </header>
 
 <div class="hero">
+  <div class="hero-eyebrow">Diagnostic Tool</div>
   <h1>Customer Blind Spot Detector</h1>
-  <p>For CEOs and founders of growing operational businesses — find where customer perception is quietly costing you margin, preference, and growth.</p>
-  <div class="instruction">Rate each question from 1 (complete blind spot) to 5 (crystal clear). Your lowest scores reveal where clients are most likely drifting.</div>
+  <p>For CEOs and founders of growing businesses — find where customer perception is quietly costing you margin, preference, and growth.</p>
+  <div class="hero-badge">Rate each statement 1–5 · Your lowest scores reveal where clients are most likely drifting</div>
 </div>
 
 <div class="container">
 
-  <div class="progress-bar-wrap">
-    <label>Your progress</label>
-    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-outer"><div class="progress-inner" id="progressBar"></div></div>
     <div class="progress-count" id="progressCount">0 / 15 answered</div>
   </div>
 
   <form id="detectorForm">
     <div id="sections-container"></div>
-    <button type="button" class="calculate-btn" id="calcBtn" onclick="calculateScore()">
+    <button type="button" class="calc-btn" id="calcBtn" onclick="calculateScore()" disabled>
       See My Results →
     </button>
   </form>
 
   <div class="results-card" id="resultsCard">
     <div class="results-header">
+      <div class="results-eyebrow">Your results</div>
       <h2>Your Blind Spot Report</h2>
       <div class="score-circle">
-        <div class="score-number" id="totalScore">0</div>
+        <div class="score-big" id="totalScore">0</div>
         <div class="score-denom">/ 75</div>
       </div>
-      <div class="score-label" id="scoreLabel"></div>
-      <div class="score-description" id="scoreDesc"></div>
+      <div class="score-verdict" id="scoreVerdict"></div>
+      <div class="score-desc" id="scoreDesc"></div>
     </div>
     <div class="results-body">
-      <h3>Score by Area</h3>
+      <div class="results-section-title">Score by area</div>
       <div id="pillarResults"></div>
-      <div id="blindSpotsBox"></div>
+      <div id="gapsBox"></div>
       <div id="strengthsBox"></div>
       <div class="cta-box">
         <h3>Ready to close these gaps?</h3>
-        <p>The Customer Fit Diagnostic is a focused 60-minute working session where we find your highest-priority customer perception gaps and what they're costing you. We review your business data together, find the gaps, and build your action plan.</p>
-        <div class="price">$500</div>
-        <div class="price-note">No long commitment. Applied toward your 90-day engagement if you decide to go further.</div>
-        <a href="https://calendly.com/patricia-rubio/30min-chat" target="_blank" class="cta-link">Book your 60-minute session →</a>
-        <p style="margin-top:14px; font-size:12px; color:#6B7280;">hello@patriciarubio.com &nbsp;|&nbsp; www.customersfit.com</p>
+        <p>A focused working session with Patricia Rubio where we find your highest-priority customer perception gaps and exactly what to do about them.</p>
+        <a href="https://calendly.com/patricia-rubio/30min-chat" target="_blank" class="cta-btn">Book a conversation with Patricia →</a>
+        <p class="cta-note">No commitment required. Start with a conversation.</p>
       </div>
     </div>
   </div>
@@ -351,17 +407,16 @@
 </div>
 
 <footer>
-  <div>Patricia Rubio &nbsp;|&nbsp; Customer Keeper &nbsp;|&nbsp; Founder, Customers Fit LLC</div>
-  <div><a href="mailto:hello@patriciarubio.com">hello@patriciarubio.com</a> &nbsp;|&nbsp; <a href="https://www.customersfit.com" target="_blank">www.customersfit.com</a></div>
-  <div class="ft">Preference isn't permanent.</div>
-  <div style="margin-top:8px; font-size:11px;">© 2026 Customers Fit LLC. All rights reserved.</div>
+  <div class="footer-tagline">The right clients are already looking for you.</div>
+  <div>Patricia Rubio &nbsp;·&nbsp; Customer Keeper &nbsp;·&nbsp; Founder, Customers Fit</div>
+  <div style="margin-top:6px;"><a href="mailto:hello@patriciarubio.com">hello@patriciarubio.com</a> &nbsp;·&nbsp; <a href="https://www.customersfit.com">customersfit.com</a></div>
+  <div class="footer-copy">© 2026 Customers Fit LLC. All rights reserved.</div>
 </footer>
 
 <script>
 const sections = [
   {
-    number: "01",
-    title: "Purchase Triggers",
+    number: "01", title: "Purchase Triggers",
     subtitle: "What actually prompts your clients to call you",
     questions: [
       "Do you know the specific moment or pain point that causes a client to reach out — rather than wait?",
@@ -371,8 +426,7 @@ const sections = [
     quickWin: "Call three recent clients and ask what specifically made them reach out when they did — not why they chose you, but why they called when they did."
   },
   {
-    number: "02",
-    title: "Value Perception",
+    number: "02", title: "Value Perception",
     subtitle: "What clients actually value vs. what you think they value",
     questions: [
       "Can you rank the top three things your best clients say they value about working with you?",
@@ -382,8 +436,7 @@ const sections = [
     quickWin: "Ask your three best clients to tell you in their own words what they'd lose if they stopped working with you. The answer will surprise you."
   },
   {
-    number: "03",
-    title: "Friction Points",
+    number: "03", title: "Friction Points",
     subtitle: "Where clients quietly disengage",
     questions: [
       "Do you know at which point in a client relationship satisfaction starts to quietly erode?",
@@ -393,8 +446,7 @@ const sections = [
     quickWin: "Map your client journey from contract signed to renewal. Mark every handoff. Those handoffs are where perception breaks down."
   },
   {
-    number: "04",
-    title: "Loyalty Drivers",
+    number: "04", title: "Loyalty Drivers",
     subtitle: "Why your best clients stay — and others don't",
     questions: [
       "Do you know what would make your top three clients seriously consider a competitor?",
@@ -404,8 +456,7 @@ const sections = [
     quickWin: "Compare your top three expanding accounts to your top three plateauing ones. The difference is usually in one specific moment of the relationship."
   },
   {
-    number: "05",
-    title: "Word-of-Mouth Catalysts",
+    number: "05", title: "Word-of-Mouth Catalysts",
     subtitle: "Why clients refer you — or don't",
     questions: [
       "Do you know exactly what your clients tell others when they recommend you?",
@@ -416,28 +467,21 @@ const sections = [
   }
 ];
 
-const totalQuestions = sections.reduce((a, s) => a + s.questions.length, 0);
+const totalQ = sections.reduce((a, s) => a + s.questions.length, 0);
 let answered = 0;
 const ratings = {};
 
-function getColor(score, max) {
-  const pct = score / max;
-  if (pct < 0.4) return '#EF4444';
-  if (pct < 0.65) return '#F59E0B';
-  return '#10B981';
-}
-
-function getBtnClass(val) {
-  if (val <= 2) return 'selected-low';
-  if (val <= 3) return 'selected-mid';
-  return 'selected-high';
+function getColor(pct) {
+  if (pct < 0.4) return '#dc2626';
+  if (pct < 0.65) return '#d97706';
+  return '#16a34a';
 }
 
 function updateProgress() {
-  const pct = (answered / totalQuestions) * 100;
+  const pct = (answered / totalQ) * 100;
   document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = answered + ' / ' + totalQuestions + ' answered';
-  document.getElementById('calcBtn').disabled = answered < totalQuestions;
+  document.getElementById('progressCount').textContent = answered + ' / ' + totalQ + ' answered';
+  document.getElementById('calcBtn').disabled = answered < totalQ;
 }
 
 function buildSections() {
@@ -461,19 +505,19 @@ function buildSections() {
         <div class="question-block">
           <div class="question-text">${q}</div>
           <div class="rating-row" id="row-${key}">
-            ${[1,2,3,4,5].map(v => `<button type="button" class="rating-btn" data-key="${key}" data-val="${v}" onclick="selectRating('${key}', ${v})">${v}</button>`).join('')}
+            ${[1,2,3,4,5].map(v => `<button type="button" class="rating-btn" data-key="${key}" data-val="${v}" onclick="selectRating('${key}',${v})">${v}</button>`).join('')}
           </div>
           <div class="rating-labels"><span>Complete blind spot</span><span>Crystal clear</span></div>
         </div>
       `;
     });
-    html += `<div class="quick-win"><strong>Quick Win:</strong> ${sec.quickWin}</div>`;
+    html += `<div class="quick-win"><strong>Quick win:</strong> ${sec.quickWin}</div>`;
     html += `</div>`;
     html += `
       <div class="section-score-bar">
-        <span class="section-score-label">${sec.title} score</span>
-        <div class="section-score-outer"><div class="section-score-inner" id="sec-bar-${si}"></div></div>
-        <span class="section-score-val" id="sec-val-${si}">–</span>
+        <span class="sec-score-label">${sec.title}</span>
+        <div class="sec-score-outer"><div class="sec-score-inner" id="sec-bar-${si}"></div></div>
+        <span class="sec-score-val" id="sec-val-${si}">–</span>
       </div>
     `;
     card.innerHTML = html;
@@ -485,27 +529,27 @@ function selectRating(key, val) {
   const wasAnswered = ratings[key] !== undefined;
   ratings[key] = val;
   if (!wasAnswered) { answered++; updateProgress(); }
+
   const row = document.getElementById('row-' + key);
   row.querySelectorAll('.rating-btn').forEach(btn => {
-    btn.classList.remove('selected', 'selected-low', 'selected-mid', 'selected-high');
-    if (parseInt(btn.dataset.val) === val) btn.classList.add(getBtnClass(val));
+    btn.className = 'rating-btn';
+    if (parseInt(btn.dataset.val) === val) btn.classList.add('sel-' + val);
   });
-  const parts = key.split('q');
-  const si = parseInt(parts[0].replace('s',''));
-  const sec = sections[si];
-  let secTotal = 0; let secAnswered = 0;
-  sec.questions.forEach((_, qi) => {
+
+  const si = parseInt(key.split('q')[0].replace('s',''));
+  let secTotal = 0, secAnswered = 0;
+  sections[si].questions.forEach((_, qi) => {
     const k = `s${si}q${qi}`;
     if (ratings[k] !== undefined) { secTotal += ratings[k]; secAnswered++; }
   });
-  const maxSec = sec.questions.length * 5;
+  const maxSec = sections[si].questions.length * 5;
   const pct = secAnswered > 0 ? (secTotal / (secAnswered * 5)) * 100 : 0;
   const bar = document.getElementById(`sec-bar-${si}`);
   const valEl = document.getElementById(`sec-val-${si}`);
   bar.style.width = pct + '%';
-  bar.style.background = getColor(secTotal, secAnswered * 5);
-  valEl.textContent = secAnswered === sec.questions.length ? secTotal + '/' + maxSec : secTotal + '…';
-  valEl.style.color = getColor(secTotal, secAnswered * 5);
+  bar.style.background = getColor(secTotal / (secAnswered * 5));
+  valEl.textContent = secAnswered === sections[si].questions.length ? secTotal + '/' + maxSec : secTotal + '…';
+  valEl.style.color = getColor(secTotal / (secAnswered * 5));
 }
 
 function calculateScore() {
@@ -516,45 +560,58 @@ function calculateScore() {
     total += s;
     return { title: sec.title, score: s, max: sec.questions.length * 5 };
   });
+
   document.getElementById('totalScore').textContent = total;
-  let label, desc;
+
+  let verdict, desc;
   if (total <= 30) {
-    label = "Significant Blind Spots"; desc = "There are several areas where customer perception is likely costing you margin and preference right now. The good news — these gaps are findable and fixable before they show up as a crisis.";
+    verdict = "Significant blind spots";
+    desc = "Several areas where customer perception is quietly costing you margin and preference right now. These gaps are findable and fixable — before they show up as a crisis.";
   } else if (total <= 50) {
-    label = "Some Critical Gaps"; desc = "You have real strengths, but there are specific areas where client perception and your delivery are quietly misaligned. Finding those gaps now — before the numbers scream — is exactly the right move.";
+    verdict = "Some critical gaps";
+    desc = "Real strengths, but specific areas where client perception and your delivery are quietly misaligned. Finding these gaps now — before the numbers scream — is exactly the right move.";
   } else if (total <= 65) {
-    label = "Good Awareness, Room to Sharpen"; desc = "You understand your clients reasonably well, but there are still gaps that could be costing you. The highest-value clients often come from closing the last 20% of the perception gap.";
+    verdict = "Good awareness, room to sharpen";
+    desc = "You understand your clients reasonably well, but there are still gaps that could be costing you. The highest-value clients often come from closing that last 20%.";
   } else {
-    label = "Strong Customer Clarity"; desc = "You have strong visibility into what your clients value. The opportunity now is to embed that insight into how your whole team operates — so it compounds over time.";
+    verdict = "Strong customer clarity";
+    desc = "You have strong visibility into what your clients value. The opportunity now is to embed that insight systematically — so it compounds over time.";
   }
-  document.getElementById('scoreLabel').textContent = label;
+  document.getElementById('scoreVerdict').textContent = verdict;
   document.getElementById('scoreDesc').textContent = desc;
+
   const pillarContainer = document.getElementById('pillarResults');
   pillarContainer.innerHTML = '';
   pillarScores.forEach(p => {
     const pct = (p.score / p.max) * 100;
-    const color = getColor(p.score, p.max);
+    const color = getColor(p.score / p.max);
     pillarContainer.innerHTML += `
-      <div class="pillar-result">
+      <div class="pillar-row">
         <div class="pillar-name">${p.title}</div>
         <div class="pillar-bar-outer"><div class="pillar-bar-inner" style="width:${pct}%; background:${color};"></div></div>
         <div class="pillar-score" style="color:${color}">${p.score}/${p.max}</div>
       </div>
     `;
   });
+
   const weak = pillarScores.filter(p => p.score / p.max < 0.5);
   const strong = pillarScores.filter(p => p.score / p.max >= 0.7);
-  const blindBox = document.getElementById('blindSpotsBox');
-  if (weak.length > 0) {
-    blindBox.innerHTML = `<div class="blind-spots"><h4>Your Biggest Blind Spots</h4>${weak.map(p => `<div class="blind-spot-item">${p.title} (${p.score}/${p.max}) — this is where client perception is most likely working against you.</div>`).join('')}</div>`;
-  } else { blindBox.innerHTML = ''; }
-  const strBox = document.getElementById('strengthsBox');
-  if (strong.length > 0) {
-    strBox.innerHTML = `<div class="strengths"><h4>Your Strengths</h4>${strong.map(p => `<div class="strength-item">${p.title} (${p.score}/${p.max}) — you have strong clarity here. Protect it.</div>`).join('')}</div>`;
-  } else { strBox.innerHTML = ''; }
-  const resultsCard = document.getElementById('resultsCard');
-  resultsCard.style.display = 'block';
-  setTimeout(() => resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+  document.getElementById('gapsBox').innerHTML = weak.length > 0 ? `
+    <div class="gaps-box">
+      <h4>Your biggest blind spots</h4>
+      ${weak.map(p => `<div class="gap-item">${p.title} (${p.score}/${p.max}) — this is where client perception is most likely working against you.</div>`).join('')}
+    </div>` : '';
+
+  document.getElementById('strengthsBox').innerHTML = strong.length > 0 ? `
+    <div class="strengths-box">
+      <h4>Your strengths</h4>
+      ${strong.map(p => `<div class="strength-item">${p.title} (${p.score}/${p.max}) — strong clarity here. Protect it.</div>`).join('')}
+    </div>` : '';
+
+  const card = document.getElementById('resultsCard');
+  card.style.display = 'block';
+  setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
 buildSections();
